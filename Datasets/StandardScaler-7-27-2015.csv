@@ -1,0 +1,6 @@
+"(array([  2,  47,  70, 182, 246], dtype=int64), 'StandardScaler', 'RFE', 'BayesianRidge', 'Fitness', 0.065230706780913084, 'Train', 0.87593491200984275, 'Valid', 0.43839235597674953, 'Test', 0.74478123922754891, 0.91479336517473531)"
+"(array([  2,  47,  70, 182, 246], dtype=int64), 'StandardScaler', 'RFE', 'SVR', 'Fitness', 0.050842143621429713, 'Train', 0.89178759770785532, 'Valid', 0.49654268699252335, 'Test', 0.87031363141758655, 0.46484133522837356)"
+"(array([  2,  47,  70, 182, 246], dtype=int64), 'StandardScaler', 'RFE', 'LinearRegression', 'Fitness', 0.06821739395696369, 'Train', 0.87932102851423255, 'Valid', 0.38976175880711483, 'Test', 0.71703119376641311, 1.0142592406233575)"
+"(array([47], dtype=int64), 'StandardScaler', 'RFECV', 'BayesianRidge', 'Fitness', 0.27608511572736544, 'Train', 0.33019259228506403, 'Valid', 0.44835734834781771, 'Test', 0.33924862105888032, 2.3683642051076026)"
+"(array([47], dtype=int64), 'StandardScaler', 'RFECV', 'SVR', 'Fitness', 0.1596895756366053, 'Train', 0.50121285882500799, 'Valid', 0.50655256669733673, 'Test', 0.30958651767854073, 2.474683565358923)"
+"(array([47], dtype=int64), 'StandardScaler', 'RFECV', 'LinearRegression', 'Fitness', 0.26983047725956033, 'Train', 0.33233726453924428, 'Valid', 0.49281221059806968, 'Test', 0.33513291534292977, 2.3831163348905702)"
