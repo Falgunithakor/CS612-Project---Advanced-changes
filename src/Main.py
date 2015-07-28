@@ -21,6 +21,8 @@ from sklearn.grid_search import GridSearchCV
 #ONLY UNIT TESTS ARE INDICATIVE OF THE SYSTEM FUNCTIONALITY                         #
 #####################################################################################
 
+
+
 normalizers = [None,NumpyNormalizer(), ScikitNormalizer(),MinMaxScaler()]
 #normalizers = [None,MinMaxScaler()]
 
@@ -32,25 +34,36 @@ normalizers = [None,NumpyNormalizer(), ScikitNormalizer(),MinMaxScaler()]
 '''
 
 feature_eliminators = [VarianceThreshold(),
-                       ExtraTreesClassifier(compute_importances=True, random_state=0),
-                       RFE(estimator=SVR(kernel="linear"),n_features_to_select=5),
-                       RFECV(estimator=SVR(kernel="linear")), TruncatedSVD(),
+                       #ExtraTreesClassifier(compute_importances=True, random_state=0)
+                       # ,RFE(estimator=SVR(kernel="linear"),n_features_to_select=5)
+                       # , RFECV(estimator=SVR(kernel="linear")),
+                       #TruncatedSVD(),
                         ]
 
 #the_models = [linear_model.BayesianRidge(), svm.SVR(), svm.SVR(kernel='rbf')]
-the_models = [linear_model.BayesianRidge(), svm.SVR(), RandomForestRegressor(), LinearRegression()]
+the_models = [linear_model.BayesianRidge()
+            # ,svm.SVR()
+            # ,RandomForestRegressor()
+            # , LinearRegression()
+            ]
 
-normalizers = [StandardScaler()
-                #,NumpyNormalizer()#, ScikitNormalizer()
+normalizers = [None
+                #, StandardScaler()
+                #,NumpyNormalizer(), ScikitNormalizer()
                 #, MinMaxScaler() ,Binarizer()
-                # ,Imputer(), KernelCenterer()
-                # ,Normalizer() ,
+                #,Imputer(), KernelCenterer()
+                #,Normalizer()
                 ]
+
+output_filename = FileLoader.create_output_file()
+
 for normalizer in normalizers:
     for feature_eliminator in feature_eliminators:
     #for k_value in range(5, 20):
     #for k_value in range(13, 14):
+
         for the_model in the_models:
+            print('taking care of ', type(normalizer).__name__,'and feature selector ', type(feature_eliminator).__name__ , 'model', type(the_model).__name__)
             file_path = "../Datasets/HIV_37_Samples/MergedDataset.csv"
             loaded_data = FileLoader.load_file(file_path)
             #feature_eliminator = SelectKBest(f_regression,k=k_value)
@@ -61,6 +74,8 @@ for normalizer in normalizers:
             exp = Experiment(the_data_manager, the_model)
 
             exp.run_experiment()
+            arr_selected = feature_eliminator.get_support(indices=True)
+
             if(exp.get_r2(SplitTypes.Train) > 0 and exp.get_r2(SplitTypes.Valid) > 0 and exp.get_r2(SplitTypes.Test) >  0):
                 print(
                 feature_eliminator.get_support(indices=True),
@@ -71,13 +86,16 @@ for normalizer in normalizers:
                 exp.get_r2(SplitTypes.Test),
                 exp.get_sum_of_squares(SplitTypes.Test))
 
-                '''
+
                 FileLoader.write_model_in_file(output_filename
+                                                        ,type(normalizer).__name__
+                                                        ,type(feature_eliminator).__name__
+                                                        , type(the_model).__name__
                                                         , feature_eliminator.get_support(indices=True)
-                                                        #, self.feature_selector.fitness_matrix[population_idx]
+                                                        , exp.fitness_matrix[0]
                                                         , exp.get_r2(SplitTypes.Train)
                                                         , exp.get_r2(SplitTypes.Valid)
                                                         , exp.get_r2(SplitTypes.Test)
                                                     )
-                '''
+
             #exp.plot_true_vs_predicted(SplitTypes.Train)
